@@ -2,12 +2,19 @@ package ar.edu.unahur.obj2.semillasAlViento
 
 class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
   val plantas = mutableListOf<Planta>()
-  var cantidadPlantas = 0
+  var cantidadPlantas = 0  #Cantidad de plantas se puede conseguir contando los elementos de la lista plantas.
+                           #Tiene redundancia.
 
   fun superficie() = ancho * largo
+
+  #En las secciones de codigo donde dice ancho * largo podria reemplazarse por la
+  #funcion ya implementada superficie, que hace exactamente lo mismo.
+  #No cumple con la Consistencia.
   fun cantidadMaximaPlantas() =
     if (ancho > largo) ancho * largo / 5 else ancho * largo / 3 + largo
 
+  #Problema de Robustez. El sistema muestra los errores de por que no se puede hacer una accion.
+  #Pero no da opcion para seguir con el proceso.
   fun plantar(planta: Planta) {
     if (cantidadPlantas == this.cantidadMaximaPlantas()) {
       println("Ya no hay lugar en esta parcela")
@@ -20,6 +27,9 @@ class Parcela(val ancho: Int, val largo: Int, val horasSolPorDia: Int) {
   }
 }
 
+
+  #La variable ahorrosEnPesos, y la funcion comprarParcela no deberian estar. Ya que no son pedidas.
+  #No cumple con la simplicidad del codigo.
 class Agricultora(val parcelas: MutableList<Parcela>) {
   var ahorrosEnPesos = 20000
 
@@ -38,6 +48,9 @@ class Agricultora(val parcelas: MutableList<Parcela>) {
       }
     }
 
+  #Aca se le esta diciendo a una parcela, que agregue algo a su lista de plantas.
+  #Pero deberia utilizar la funcion plantar.
+  #Al hacerlo como lo hace agrega una planta a la lista, pero no la suma al a cantidad de plantas.
   fun plantarEstrategicamente(planta: Planta) {
     val laElegida = parcelas.maxBy { it.cantidadMaximaPlantas() - it.cantidadPlantas }!!
     laElegida.plantas.add(planta)
