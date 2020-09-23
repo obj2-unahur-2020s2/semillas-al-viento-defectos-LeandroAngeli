@@ -1,24 +1,20 @@
 package ar.edu.unahur.obj2.semillasAlViento
 
-abstract class Planta(val anioObtencionSemilla: Int, var altura: Float) {
+abstract class Planta(val anioObtencionSemilla: Int, val altura: Float) {
   fun esFuerte() = this.horasDeSolQueTolera() > 10
 
-  /*Este metodo (parcelaTieneComplicaciones) es de la parcela. No deberia estar dentro de una planta.
-  No se respeta la cohesion.*/
-
-
   abstract fun horasDeSolQueTolera(): Int
-  abstract fun daSemillas(): Boolean
+  open fun daSemillas(): Boolean{
+    return this.esFuerte()
+  }
 }
 
 class Menta(anioObtencionSemilla: Int, altura: Float) : Planta(anioObtencionSemilla, altura) {
   override fun horasDeSolQueTolera() = 6
-  override fun daSemillas() = this.esFuerte() || altura > 0.4
+  override fun daSemillas() = super.daSemillas() || altura > 0.4
 }
 
 
-/*No cumple con el desacoplamiento.
-Soja transgenica deberia ser una clase aparte que herede Soja.*/
 open class Soja(anioObtencionSemilla: Int, altura: Float) : Planta(anioObtencionSemilla, altura) {
   override fun horasDeSolQueTolera(): Int  {
     // ¡Magia de Kotlin! El `when` es como un `if` pero más poderoso:
@@ -34,7 +30,7 @@ open class Soja(anioObtencionSemilla: Int, altura: Float) : Planta(anioObtencion
 
 
   override fun daSemillas(): Boolean  {
-    return this.esFuerte() || (this.anioObtencionSemilla > 2007 && this.altura > 1)
+    return super.daSemillas() || (this.anioObtencionSemilla > 2007 && this.altura > 1)
   }
 
 class SojaTransgenica(anioObtencionSemilla: Int, altura: Float) : Soja(anioObtencionSemilla, altura){

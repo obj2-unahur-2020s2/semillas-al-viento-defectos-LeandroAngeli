@@ -50,10 +50,6 @@ class SemillasAlViento : DescribeSpec({
         val agricultora1 = Agricultora(mutableListOf(parcela1, parcela2, parcela3))
 
 
-
-
-
-
         /* Comienzo de Testeo del codigo */
         menta1.horasDeSolQueTolera().shouldBe(6)
         soja1.horasDeSolQueTolera().shouldBe(6)
